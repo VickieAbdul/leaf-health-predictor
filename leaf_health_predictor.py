@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Let's create a synthetic dataset
 np.random.seed(42)
@@ -45,34 +45,63 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 # Streamlit app UI
-st.title("Plant Health Checker")
-st.write("Dataset Overview:")
-st.dataframe(df.head())
 
-st.write(f"Model Accuracy: {accuracy:.2f}")
+# The About Page
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Select a page:", ["Predictor", "About"])
 
-# Input fields for prediction
-st.write("Check Plant Health:")
-leaf_color = st.selectbox("Leaf Color", ['Green', 'Yellow', 'Brown'])
-leaf_size = st.slider("Leaf Size", 1, 10)
-leaf_spots = st.radio("Leaf Spots", [0, 1])
+if page == "About":
+    st.title("About the Leaf Health Predictor")
+    st.write("""
+    The **Leaf Health Predictor** is a beginner-level machine learning app built to predict 
+    the health of a plant based on leaf attributes like color, size, and spots. It is designed to 
+    help users get familiar with using **Streamlit** for building interactive machine learning applications.
+    This project provides a foundational understanding of deploying machine learning models in real-world scenarios.
+    """)
+    st.write("""
+    Technologies used:
+    - **Python**
+    - **Streamlit** for UI
+    - **Plotly** for interactive plotting
+    - **Scikit-learn** for machine learning
+    """)
+else:
+    st.title("Leaf Health Predictor")
 
-# Prepare input for prediction
-input_data = pd.DataFrame({
-    'Leaf Color': [leaf_color],
-    'Leaf Size': [leaf_size],
-    'Leaf Spots': [leaf_spots]
-})
-input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
+    st.write(f"Model Accuracy: {accuracy:.2f}")
 
-predicted_health = model.predict(input_data)[0]
-st.write(f"Predicted Plant Health: {predicted_health}")
+    # Input fields for prediction
+    st.write("Check Plant Health:")
+    leaf_color = st.selectbox("Leaf Color", ['Green', 'Yellow', 'Brown'])
+    leaf_size = st.slider("Leaf Size", 1, 10)
+    leaf_spots = st.radio("Leaf Spots", [0, 1])
 
-# Plot feature importance
-fig, ax = plt.subplots()
-importance = model.feature_importances_
-features = X.columns
-ax.bar(features, importance)
-ax.set_xlabel('Features')
-ax.set_ylabel('Importance')
-st.pyplot(fig)
+    # Prepare input for prediction
+    input_data = pd.DataFrame({
+        'Leaf Color': [leaf_color],
+        'Leaf Size': [leaf_size],
+        'Leaf Spots': [leaf_spots]
+    })
+    input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
+
+    predicted_health = model.predict(input_data)[0]
+    st.write(f"Predicted Plant Health: {predicted_health}")
+
+    # Get feature importances from the model
+    feature_importances = model.feature_importances_
+    feature_names = ['Leaf Color', 'Leaf Size', 'Leaf Spots']
+
+    # Create a DataFrame for Plotly
+    importance_df = pd.DataFrame({
+        'Feature': feature_names,
+        'Importance': feature_importances
+    })
+
+    # Create the feature importance plot using Plotly
+    fig = px.bar(importance_df, x='Feature', y='Importance', 
+                 title='Feature Importances',
+                 labels={'Importance': 'Importance Score', 'Feature': 'Features'},
+                 height=400, width=600)  # Adjusting plot size
+
+    # Display the plot
+    st.plotly_chart(fig)

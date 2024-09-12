@@ -19,15 +19,16 @@ This indicates the plant's health. Healthy leaves are typically green, while yel
 - Yellow (1): Possible nutrient deficiency or stress.
 - Brown (2): Indication of disease, dehydration, or aging.
 
-#### Leaf Size:
-Reflects the overall growth and health of the plant. In ideal conditions, leaves tend to grow to their full potential. Smaller or stunted leaves may indicate stress, malnutrition, or poor growing conditions.
+#### Leaf length and width:
+Reflects the overall size indicating growth and health of the plant. In ideal conditions, leaves tend to grow to their full potential. Smaller or stunted leaves may indicate stress, malnutrition, or poor growing conditions.
 #### Values:
-Leaf size is represented as an integer (ranging from 1 to 10 in the model), where:
-- 1 represents a very small or underdeveloped leaf.
-- 10 represents a fully developed and healthy leaf.
-
+- represents leaf measurements in cm
+- they could be very small or underdeveloped leaves or fully developed or large leaves.
+  
+Leaf Health Values:
 #### Leaf Spots:
 Spots on a leaf is a common sign of disease or pest damage. Spots may indicate fungal or bacterial infections, which can deteriorate the plant’s health.
 #### Values:
 - Yes (1): The leaf has spots, indicating possible disease or pest damage.
 - No (0): The leaf is free of spots, suggesting that it is healthy or not affected by visible diseases.
+

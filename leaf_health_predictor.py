@@ -84,8 +84,8 @@ else:
     leaf_color = st.selectbox("Select Leaf Color", ["Green", "Yellow", "Brown"])
     leaf_length = st.number_input("Enter Leaf Length (cm)", min_value=0.0, format="%.2f")
     leaf_width = st.number_input("Enter Leaf Width (cm)", min_value=0.0, format="%.2f")
-    leaf_spots = st.selectbox("Does the leaf have spots?", value=False)
-    spots_value = 1 if leaf_spots else 0
+    leaf_spots = st.selectbox("Does the leaf have spots?", ["Yes", "No"])
+    spots_value = 1 if leaf_spots == "Yes" else 0
 
     # Create input data for prediction
     input_data = pd.DataFrame({

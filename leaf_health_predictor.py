@@ -1,52 +1,49 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
 import plotly.express as px
 
-# Let's create a synthetic dataset
-np.random.seed(42)
-n_samples = 500
-leaf_colors = np.random.choice(['Green', 'Yellow', 'Brown'], size=n_samples)
-leaf_sizes = np.random.randint(1, 10, size=n_samples)
-leaf_spots = np.random.choice([0, 1], size=n_samples)
-health_status = np.where(
-    (leaf_colors == 'Green') & (leaf_sizes > 3) & (leaf_spots == 0), 'Healthy',
-    np.where(
-        (leaf_colors == 'Yellow') | (leaf_sizes <= 3), 'Needs Water',
-        'Diseased'
-    )
-)
+# Let's generate a dataset with 500 samples
+np.random.seed(42)  # This has been set for reproducibility
 
-# Convert the generated data to DataFrame and rename columns
-df = pd.DataFrame({
-    'Leaf Color': leaf_colors,
-    'Leaf Size': leaf_sizes,
-    'Leaf Spots': leaf_spots,
-    'Health Status': health_status
-})
+def generate_data(n_samples):
+    leaf_colors = np.random.choice([0, 1, 2], n_samples)  # 0: Green, 1: Yellow, 2: Brown
+    leaf_lengths = np.random.uniform(5.0, 20.0, n_samples)  # Leaf Length in cm
+    leaf_widths = np.random.uniform(2.0, 10.0, n_samples)  # Leaf Width in cm
+    leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
+    health_status = np.random.choice([0, 1, 2], n_samples)  # 0: Healthy, 1: Needs Water, 2: Diseased
 
-# Feature engineering and model creation
+    data = pd.DataFrame({
+        'Leaf Color': leaf_colors,
+        'Leaf Length': leaf_lengths,
+        'Leaf Width': leaf_widths,
+        'Leaf Spots': leaf_spots,
+        'Health': health_status
+    })
 
-# Encode categorical features
-df['Leaf Color'] = df['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
+    return data
 
-# Split data
-X = df[['Leaf Color', 'Leaf Size', 'Leaf Spots']]
-y = df['Health Status']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+data = generate_data(500)
 
-# Train model
+# Split the data
+X = data[['Leaf Color', 'Leaf Length', 'Leaf Width', 'Leaf Spots']]
+y = data['Health']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train the model
 model = DecisionTreeClassifier()
 model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
 
-# Streamlit app UI
+# Calculate feature importances
+importances = model.feature_importances_
+feature_names = X.columns
+importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
 
-# The About Page
+# Working on the streamlit UI
+
+# About Page
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Select a page:", ["Predictor", "About"])
 
@@ -65,9 +62,9 @@ if page == "About":
     - **Yellow (1)**: Possible nutrient deficiency or stress.
     - **Brown (2)**: Indication of disease, dehydration, or aging.
     
-    Leaf size Values (integer range from 1 - 10):
-    - **1** represents a very small or underdeveloped leaf.
-    - **10** represents a fully developed and healthy leaf.
+    Leaf lenght and width:
+    - represents leaf measurements in cm
+    - they could be very small or underdeveloped leaves or fully developed or large leaves.
     
     Leaf Health Values:
     - **Yes (1)**: The leaf has spots, indicating possible disease or pest damage.
@@ -75,44 +72,32 @@ if page == "About":
     """)
 else:
     st.title("Leaf Health Predictor")
-    
-    st.write("Dataset Overview")
-    st.dataframe(df.head())
-    
-    st.write(f"Model Accuracy: {accuracy:.2f}")
 
-    # Input fields for prediction
-    st.write("Use slider and radio button below to check Plant Health:")
-    leaf_color = st.selectbox("Leaf Color", ['Green', 'Yellow', 'Brown'])
-    leaf_size = st.slider("Leaf Size", 1, 10)
-    leaf_spots = st.radio("Leaf Spots", [0, 1])
+    # Inputs for prediction
+    leaf_color = st.selectbox("Select Leaf Color", ["Green", "Yellow", "Brown"])
+    leaf_length = st.number_input("Enter Leaf Length (cm)", min_value=0.0, format="%.2f")
+    leaf_width = st.number_input("Enter Leaf Width (cm)", min_value=0.0, format="%.2f")
+    leaf_spots = st.checkbox("Does the leaf have spots?", value=False)
+    spots_value = 1 if leaf_spots else 0
 
-    # Prepare input for prediction
+    # Create input data for prediction
     input_data = pd.DataFrame({
         'Leaf Color': [leaf_color],
-        'Leaf Size': [leaf_size],
-        'Leaf Spots': [leaf_spots]
+        'Leaf Length': [leaf_length],
+        'Leaf Width': [leaf_width],
+        'Leaf Spots': [spots_value]
     })
     input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
 
+    # Prediction
     predicted_health = model.predict(input_data)[0]
-    st.write(f"Predicted Plant Health: {predicted_health}")
+    health_map = {0: "Healthy", 1: "Needs Water", 2: "Diseased"}
+    st.write(f"Predicted Health: {health_map[predicted_health]}")
 
-    # Get feature importances from the model
-    feature_importances = model.feature_importances_
-    feature_names = ['Leaf Color', 'Leaf Size', 'Leaf Spots']
-
-    # Create a DataFrame for Plotly
-    importance_df = pd.DataFrame({
-        'Feature': feature_names,
-        'Importance': feature_importances
-    })
-
-    # Create the feature importances plot using Plotly
-    fig = px.bar(importance_df, x='Feature', y='Importance', 
+    # Feature importance plot
+    fig = px.bar(importance_df, x='Feature', y='Importance',
                  title='Feature Importances',
                  labels={'Importance': 'Importance Score', 'Feature': 'Features'},
-                 height=400, width=600)  # Adjusting plot size
+                 height=400, width=600)
 
-    # Display the plot
     st.plotly_chart(fig)

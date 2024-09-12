@@ -87,7 +87,7 @@ if page == "About":
     - **Yellow (1)**: Possible nutrient deficiency or stress.
     - **Brown (2)**: Indication of disease, dehydration, or aging.
     
-    Leaf lenght and width:
+    Leaf length and width:
     - represents leaf measurements in cm
     - they could be very small or underdeveloped leaves or fully developed or large leaves.
     

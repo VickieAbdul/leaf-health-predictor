@@ -43,7 +43,7 @@ def generate_data(n_samples):
 
     return data
 # Generate the data
-data = generate_data(500)
+data = generate_data(1000)
 
 # Split the data
 X = data[['Leaf Color', 'Leaf Length', 'Leaf Width', 'Leaf Spots']]

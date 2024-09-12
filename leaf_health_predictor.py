@@ -53,14 +53,12 @@ page = st.sidebar.radio("Select a page:", ["Predictor", "About"])
 if page == "About":
     st.title("About the Leaf Health Predictor")
     st.write("""
-    The **Leaf Health Predictor** is a beginner-level machine learning app built to predict 
-    the health of a plant based on leaf attributes like color, size, and spots. It is designed to 
-    help users get familiar with using **Streamlit** for building interactive machine learning applications.
+    This **Leaf Health Predictor** will help users assess the health of plants based on features such as leaf color, size, and the presence of spots. 
+    It was built using a Decision Tree classifier to provide a basic prediction of a plant’s health status: Healthy, Needs Water, or Diseased.
     This project provides a foundational understanding of deploying machine learning models in real-world scenarios.
     """)
     st.write("""
     Technologies used:
-    - **Python**
     - **Streamlit** for UI
     - **Plotly** for interactive plotting
     - **Scikit-learn** for machine learning

@@ -16,10 +16,10 @@ def generate_data(n_samples):
     health_status = np.random.choice([0, 1, 2], n_samples)  # 0: Healthy, 1: Needs Water, 2: Diseased
 
     data = pd.DataFrame({
-        'Leaf Color': leaf_colors,
-        'Leaf Length': leaf_lengths,
-        'Leaf Width': leaf_widths,
-        'Leaf Spots': leaf_spots,
+        'Leaf_Color': leaf_colors,
+        'Leaf_Length': leaf_lengths,
+        'Leaf_Width': leaf_widths,
+        'Leaf_Spots': leaf_spots,
         'Health': health_status
     })
 
@@ -35,6 +35,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 # Train the model
 model = DecisionTreeClassifier()
 model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
 
 # Calculate feature importances
 importances = model.feature_importances_
@@ -75,11 +77,13 @@ else:
     st.write("Dataset Overview")
     st.dataframe(data.head())
 
+    st.write(f"Model Accuracy: {accuracy:.2f}")
+
     # Inputs for prediction
     leaf_color = st.selectbox("Select Leaf Color", ["Green", "Yellow", "Brown"])
     leaf_length = st.number_input("Enter Leaf Length (cm)", min_value=0.0, format="%.2f")
     leaf_width = st.number_input("Enter Leaf Width (cm)", min_value=0.0, format="%.2f")
-    leaf_spots = st.selectionbox("Does the leaf have spots?", value=False)
+    leaf_spots = st.selectbox("Does the leaf have spots?", value=False)
     spots_value = 1 if leaf_spots else 0
 
     # Create input data for prediction

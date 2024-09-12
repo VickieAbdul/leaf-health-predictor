@@ -17,7 +17,7 @@ def generate_data(n_samples):
     leaf_widths = np.random.uniform(2.0, 10.0, n_samples).round(1)  # Leaf Width in cm rounded to 1 decimal place
     leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
 
-    # Generate target variable with significant roles for leaf length, width, and spots
+    # We will also generate target variable with significant roles for leaf length, width, and spots
     # This function will calculate the health status of the leaves based on the condition we set
     def generate_health(color, length, width, spots):
         if length > 15 and width > 7 and color == 0 and spots == 0:
@@ -37,7 +37,7 @@ def generate_data(n_samples):
         for color, length, width, spots in zip(leaf_colors, leaf_lengths, leaf_widths, leaf_spots)
     ])
 
-    # Putting it in a dataframw
+    # Putting it in a dataframe
     data = pd.DataFrame({
         'Leaf Color': leaf_colors,
         'Leaf Length': leaf_lengths,
@@ -49,6 +49,8 @@ def generate_data(n_samples):
     return data
 # Generate the data
 data = generate_data(1000)
+
+# Model training and testing
 
 # Split the data
 X = data[['Leaf Color', 'Leaf Length', 'Leaf Width', 'Leaf Spots']]

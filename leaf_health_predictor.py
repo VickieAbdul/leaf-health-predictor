@@ -58,10 +58,17 @@ if page == "About":
     This project provides a foundational understanding of deploying machine learning models in real-world scenarios.
     """)
     st.write("""
-    Technologies used:
-    - **Streamlit** for UI
-    - **Plotly** for interactive plotting
-    - **Scikit-learn** for machine learning
+    Explanation of features:
+    Leaf color Values:
+    - **Green (0)**: Healthy or well-nourished leaves.
+    - **Yellow (1)**: Possible nutrient deficiency or stress.
+    - **Brown (2)**: Indication of disease, dehydration, or aging.
+    Leaf size Values (integer range from 1 - 10):
+    - **1** represents a very small or underdeveloped leaf.
+    - **10** represents a fully developed and healthy leaf.
+    Leaf Health Values:
+    - **Yes (1)**: The leaf has spots, indicating possible disease or pest damage.
+    - **No (0)**: The leaf is free of spots, suggesting that it is healthy or not affected by visible diseases.
     """)
 else:
     st.title("Leaf Health Predictor")

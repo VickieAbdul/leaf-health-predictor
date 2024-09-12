@@ -98,7 +98,7 @@ else:
         'Importance': feature_importances
     })
 
-    # Create the feature importance plot using Plotly
+    # Create the feature importances plot using Plotly
     fig = px.bar(importance_df, x='Feature', y='Importance', 
                  title='Feature Importances',
                  labels={'Importance': 'Importance Score', 'Feature': 'Features'},

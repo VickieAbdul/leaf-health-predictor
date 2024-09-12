@@ -72,12 +72,14 @@ if page == "About":
     """)
 else:
     st.title("Leaf Health Predictor")
+    st.write("Dataset Overview")
+    st.dataframe(data.head())
 
     # Inputs for prediction
     leaf_color = st.selectbox("Select Leaf Color", ["Green", "Yellow", "Brown"])
     leaf_length = st.number_input("Enter Leaf Length (cm)", min_value=0.0, format="%.2f")
     leaf_width = st.number_input("Enter Leaf Width (cm)", min_value=0.0, format="%.2f")
-    leaf_spots = st.checkbox("Does the leaf have spots?", value=False)
+    leaf_spots = st.selectionbox("Does the leaf have spots?", value=False)
     spots_value = 1 if leaf_spots else 0
 
     # Create input data for prediction

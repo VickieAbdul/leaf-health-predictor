@@ -16,10 +16,10 @@ def generate_data(n_samples):
     health_status = np.random.choice([0, 1, 2], n_samples)  # 0: Healthy, 1: Needs Water, 2: Diseased
 
     data = pd.DataFrame({
-        'Leaf_Color': leaf_colors,
-        'Leaf_Length': leaf_lengths,
-        'Leaf_Width': leaf_widths,
-        'Leaf_Spots': leaf_spots,
+        'Leaf Color': leaf_colors,
+        'Leaf Length': leaf_lengths,
+        'Leaf Width': leaf_widths,
+        'Leaf Spots': leaf_spots,
         'Health': health_status
     })
 
@@ -88,10 +88,10 @@ else:
 
     # Create input data for prediction
     input_data = pd.DataFrame({
-        'Leaf_Color': [leaf_color],
-        'Leaf_Length': [leaf_length],
-        'Leaf_Width': [leaf_width],
-        'Leaf_Spots': [spots_value]
+        'Leaf Color': [leaf_color],
+        'Leaf Length': [leaf_length],
+        'Leaf Width': [leaf_width],
+        'Leaf Spots': [spots_value]
     })
     input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
 

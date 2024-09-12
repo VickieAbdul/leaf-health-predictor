@@ -40,8 +40,8 @@ def generate_data(n_samples):
     # Putting it in a dataframw
     data = pd.DataFrame({
         'Leaf Color': leaf_colors,
-        'Leaf Length (cm)': leaf_lengths,
-        'Leaf Width (cm)': leaf_widths,
+        'Leaf Length': leaf_lengths,
+        'Leaf Width': leaf_widths,
         'Leaf Spots': leaf_spots,
         'Health': health_status
     })

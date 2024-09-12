@@ -9,36 +9,26 @@ import plotly.express as px
 # Let's generate a dataset with 500 samples
 np.random.seed(42)  # This has been set for reproducibility
 
-# Seed for reproducibility
-np.random.seed(42)
-
-# Function to generate synthetic data
-# Seed for reproducibility
-np.random.seed(42)
-
 # Function to generate synthetic data
 def generate_data(n_samples):
-    # Generate features with clear relationships to the target
+    # Generate features
     leaf_colors = np.random.choice([0, 1, 2], n_samples)  # 0: Green, 1: Yellow, 2: Brown
     leaf_lengths = np.random.uniform(5.0, 20.0, n_samples)  # Leaf Length in cm
     leaf_widths = np.random.uniform(2.0, 10.0, n_samples)  # Leaf Width in cm
     leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
-    
-    # Let's use some logic to give our target variable clear relationships
-    # if leaves are healthy: Green + Leaf Length > 10 + Leaf Spots = No
-    # if leaves need Water: Yellow + Leaf Length between 8 and 12 + Leaf Spots = No
-    # if diseased: Brown + Leaf Length < 8 or Leaf Spots = Yes
-    def generate_health(color, length, spots):
-        if color == 0 and length > 10 and spots == 0:
-            return 0  # Healthy
-        elif color == 1 and 8 <= length <= 12 and spots == 0:
-            return 1  # Needs Water
+
+    # Generate target variable with significant roles for leaf length and width
+    def generate_health(color, length, width, spots):
+        if length > 15 and width > 7 and color == 0 and spots == 0:
+            return 0  # Healthy if leaf length > 15 cm, width > 7 cm, green color, and no spots
+        elif length > 10 and width > 5 and color == 1 and spots == 0:
+            return 1  # Needs Water if leaf length > 10 cm, width > 5 cm, yellow color, and no spots
         else:
-            return 2  # Diseased
+            return 2  # Diseased otherwise
 
     health_status = np.array([
-        generate_health(color, length, spots)
-        for color, length, spots in zip(leaf_colors, leaf_lengths, leaf_spots)
+        generate_health(color, length, width, spots)
+        for color, length, width, spots in zip(leaf_colors, leaf_lengths, leaf_widths, leaf_spots)
     ])
 
     data = pd.DataFrame({
@@ -51,6 +41,7 @@ def generate_data(n_samples):
 
     return data
 
+# Generate the data
 data = generate_data(500)
 
 # Split the data

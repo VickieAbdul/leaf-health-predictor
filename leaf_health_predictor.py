@@ -72,7 +72,7 @@ else:
     st.write(f"Model Accuracy: {accuracy:.2f}")
 
     # Input fields for prediction
-    st.write("Check Plant Health:")
+    st.write("Use slider and radio button below to check Plant Health:")
     leaf_color = st.selectbox("Leaf Color", ['Green', 'Yellow', 'Brown'])
     leaf_size = st.slider("Leaf Size", 1, 10)
     leaf_spots = st.radio("Leaf Spots", [0, 1])

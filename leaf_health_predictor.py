@@ -58,7 +58,7 @@ if page == "About":
     This project provides a foundational understanding of deploying machine learning models in real-world scenarios.
     """)
     st.write("""
-    Explanation of features:
+    **Explanation of features**:
     
     Leaf color Values:
     - **Green (0)**: Healthy or well-nourished leaves.

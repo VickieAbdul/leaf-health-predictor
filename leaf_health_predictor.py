@@ -7,9 +7,9 @@ from sklearn.metrics import accuracy_score
 import plotly.express as px
 
 # Let's generate a dataset with 500 samples
-np.random.seed(42)  # This has been set for reproducibility
+np.random.seed(42)  # This has been set so we can have the same results everytime the code is run
 
-# Function to generate synthetic data
+# Let's create function to generate synthetic data
 def generate_data(n_samples):
     # Generate features
     leaf_colors = np.random.choice([0, 1, 2], n_samples)  # 0: Green, 1: Yellow, 2: Brown
@@ -18,21 +18,26 @@ def generate_data(n_samples):
     leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
 
     # Generate target variable with significant roles for leaf length, width, and spots
+    # This function will calculate the health status of the leaves based on the condition we set
     def generate_health(color, length, width, spots):
-        if length > 10 and width > 10 and color == 0 and spots == 0:
+        if length > 15 and width > 7 and color == 0 and spots == 0:
             return 0  # Healthy if leaf length > 15 cm, width > 7 cm, green color, and no spots
-        elif length > 5 and width > 5 and color == 1 and spots == 0:
+        elif length > 10 and width > 5 and color == 1 and spots == 0:
             return 1  # Needs Water if leaf length > 10 cm, width > 5 cm, yellow color, and no spots
         elif spots == 1:  # Diseased if there are spots, regardless of length, width, or color
             return 2
         else:
             return 2  # Diseased otherwise
-
+            
+    # We use list comprehension along with the zip function to apply the generate_health function
+    # to each combination of values from the leaf_colors, leaf_lengths, leaf_widths, and leaf_spots lists.
+    # This produces an array of health statuses.
     health_status = np.array([
         generate_health(color, length, width, spots)
         for color, length, width, spots in zip(leaf_colors, leaf_lengths, leaf_widths, leaf_spots)
     ])
 
+    # Putting it in a dataframw
     data = pd.DataFrame({
         'Leaf Color': leaf_colors,
         'Leaf Length': leaf_lengths,

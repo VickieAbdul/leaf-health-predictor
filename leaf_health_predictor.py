@@ -88,10 +88,10 @@ else:
 
     # Create input data for prediction
     input_data = pd.DataFrame({
-        'Leaf Color': [leaf_color],
-        'Leaf Length': [leaf_length],
-        'Leaf Width': [leaf_width],
-        'Leaf Spots': [spots_value]
+        'Leaf_Color': [leaf_color],
+        'Leaf_Length': [leaf_length],
+        'Leaf_Width': [leaf_width],
+        'Leaf_Spots': [spots_value]
     })
     input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})
 

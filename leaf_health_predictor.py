@@ -40,8 +40,8 @@ def generate_data(n_samples):
     # Putting it in a dataframw
     data = pd.DataFrame({
         'Leaf Color': leaf_colors,
-        'Leaf Length': leaf_lengths,
-        'Leaf Width': leaf_widths,
+        'Leaf Length (cm)': leaf_lengths,
+        'Leaf Width (cm)': leaf_widths,
         'Leaf Spots': leaf_spots,
         'Health': health_status
     })
@@ -112,8 +112,8 @@ else:
     # Create input data for prediction
     input_data = pd.DataFrame({
         'Leaf Color': [leaf_color],
-        'Leaf Length': [leaf_length],
-        'Leaf Width': [leaf_width],
+        'Leaf Length (cm)': [leaf_length],
+        'Leaf Width (cm)': [leaf_width],
         'Leaf Spots': [spots_value]
     })
     input_data['Leaf Color'] = input_data['Leaf Color'].map({'Green': 0, 'Yellow': 1, 'Brown': 2})

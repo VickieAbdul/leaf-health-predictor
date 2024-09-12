@@ -13,16 +13,18 @@ np.random.seed(42)  # This has been set for reproducibility
 def generate_data(n_samples):
     # Generate features
     leaf_colors = np.random.choice([0, 1, 2], n_samples)  # 0: Green, 1: Yellow, 2: Brown
-    leaf_lengths = np.random.uniform(5.0, 20.0, n_samples)  # Leaf Length in cm
-    leaf_widths = np.random.uniform(2.0, 10.0, n_samples)  # Leaf Width in cm
+    leaf_lengths = np.random.uniform(5.0, 20.0, n_samples).round(1)  # Leaf Length in cm rounded to 1 decimal place
+    leaf_widths = np.random.uniform(2.0, 10.0, n_samples).round(1)  # Leaf Width in cm rounded to 1 decimal place
     leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
 
-    # Generate target variable with significant roles for leaf length and width
+    # Generate target variable with significant roles for leaf length, width, and spots
     def generate_health(color, length, width, spots):
         if length > 15 and width > 7 and color == 0 and spots == 0:
             return 0  # Healthy if leaf length > 15 cm, width > 7 cm, green color, and no spots
         elif length > 10 and width > 5 and color == 1 and spots == 0:
             return 1  # Needs Water if leaf length > 10 cm, width > 5 cm, yellow color, and no spots
+        elif spots == 1:  # Diseased if there are spots, regardless of length, width, or color
+            return 2
         else:
             return 2  # Diseased otherwise
 
@@ -40,7 +42,6 @@ def generate_data(n_samples):
     })
 
     return data
-
 # Generate the data
 data = generate_data(500)
 

@@ -13,39 +13,39 @@ np.random.seed(42)  # This has been set for reproducibility
 np.random.seed(42)
 
 # Function to generate synthetic data
-def generate_high_accuracy_data(n_samples):
+def generate_data(n_samples):
     # Generate features with clear relationships to the target
     leaf_colors = np.random.choice([0, 1, 2], n_samples)  # 0: Green, 1: Yellow, 2: Brown
     leaf_lengths = np.random.uniform(5.0, 20.0, n_samples)  # Leaf Length in cm
     leaf_widths = np.random.uniform(2.0, 10.0, n_samples)  # Leaf Width in cm
     leaf_spots = np.random.choice([0, 1], n_samples)  # 0: No, 1: Yes
     
-    # Let us generate our target variable with clear relationshipsnusing the logic below:
-    # if Healthy, then: Green + Leaf Length > 10 + Leaf Spots = No
-    # if Needs Water, then: Yellow + Leaf Length between 8 and 12 + Leaf Spots = No
-    # if Diseased, then: Brown + Leaf Length < 8 or Leaf Spots = Yes
-    def generate_health(color, length, spots):
-        if color == 0 and length > 10 and spots == 0:
-            return 0  # Healthy
-        elif color == 1 and 8 <= length <= 12 and spots == 0:
-            return 1  # Needs Water
-        else:
-            return 2  # Diseased
+# Let us generate our target variable with clear relationshipsnusing the logic below:
+# if Healthy, then: Green + Leaf Length > 10 + Leaf Spots = No
+# if Needs Water, then: Yellow + Leaf Length between 8 and 12 + Leaf Spots = No
+# if Diseased, then: Brown + Leaf Length < 8 or Leaf Spots = Yes
+def generate_health(color, length, spots):
+    if color == 0 and length > 10 and spots == 0:
+        return 0  # Healthy
+    elif color == 1 and 8 <= length <= 12 and spots == 0:
+        return 1  # Needs Water
+    else:
+        return 2  # Diseased
 
-    health_status = np.array([
-        generate_health(color, length, spots)
-        for color, length, spots in zip(leaf_colors, leaf_lengths, leaf_spots)
-    ])
+health_status = np.array([
+    generate_health(color, length, spots)
+for color, length, spots in zip(leaf_colors, leaf_lengths, leaf_spots)
+])
 
-    data = pd.DataFrame({
-        'Leaf Color': leaf_colors,
-        'Leaf Length': leaf_lengths,
-        'Leaf Width': leaf_widths,
-        'Leaf Spots': leaf_spots,
-        'Health': health_status
-    })
+data = pd.DataFrame({
+    'Leaf Color': leaf_colors,
+    'Leaf Length': leaf_lengths,
+    'Leaf Width': leaf_widths,
+    'Leaf Spots': leaf_spots,
+    'Health': health_status
+})
 
-    return data
+return data
 
 data = generate_data(500)
 

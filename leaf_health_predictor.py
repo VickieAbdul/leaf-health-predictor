@@ -67,7 +67,7 @@ if page == "About":
     """)
 else:
     st.title("Leaf Health Predictor")
-
+    st.dataframe(df.head())
     st.write(f"Model Accuracy: {accuracy:.2f}")
 
     # Input fields for prediction

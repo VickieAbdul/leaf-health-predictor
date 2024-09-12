@@ -19,9 +19,9 @@ def generate_data(n_samples):
 
     # Generate target variable with significant roles for leaf length, width, and spots
     def generate_health(color, length, width, spots):
-        if length > 15 and width > 7 and color == 0 and spots == 0:
+        if length > 10 and width > 10 and color == 0 and spots == 0:
             return 0  # Healthy if leaf length > 15 cm, width > 7 cm, green color, and no spots
-        elif length > 10 and width > 5 and color == 1 and spots == 0:
+        elif length > 5 and width > 5 and color == 1 and spots == 0:
             return 1  # Needs Water if leaf length > 10 cm, width > 5 cm, yellow color, and no spots
         elif spots == 1:  # Diseased if there are spots, regardless of length, width, or color
             return 2

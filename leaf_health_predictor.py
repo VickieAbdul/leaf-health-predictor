@@ -72,7 +72,7 @@ importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importance
 
 # About Page
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Select a page:", ["Predictor", "About"])
+page = st.sidebar.radio("Select a page:", ["About", "Predictor"])
 
 if page == "About":
     st.title("About the Leaf Health Predictor")
